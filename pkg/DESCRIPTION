@@ -1,0 +1,12 @@
+Package: DengueParmEst
+Type: Package
+Title: Parameter estimates (and real-time prediction) of a single dengue outbreak
+Version: 1.0.1
+Date: 2015-06-25
+Author: Carlos Sebrango, Lizet Sanchez, Ziv Shkedy
+Maintainer: Carlos Sebrango <sebrango@uniss.edu.cu>, Ewoud de Troyer <ewouddetroyer@uhasselt.be>
+Description: The DengueParmEst package provide functions for 
+ parameter estimation and real -time predictions  of a single dengue 
+ outbreak taking into account model uncertainty using  model averaging. 
+Depends: ggplot2, nlme, drc, NRAIA
+License: GPL-3
