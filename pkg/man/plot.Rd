@@ -58,24 +58,24 @@ ti2<- c(1:34)
 
 ## plot function for a allmodel.m object 
 ##Richards model (Incidence data example 1)
-ee<-allmodel.m(inc1,tii, model="Richards")
+ee<-allmodels(inc1,tii, model="Richards")
 plot(ee,which=c(1,2))
 
 ##using all built-in models (Incidence data example 2)
-ee2<-allmodel.m(inc2,ti2, model="all")
+ee2<-allmodels(inc2,ti2, model="all")
 plot(ee2,which=c(1,2,3,4))
 
 ##plot function for allmodel.predict object
 ##3P logistic model (Incidence data example 1)
 ## information avalaible to the time point 20
 ## observation to predict: 30 
-ee3<-allmodel.predict(inc2[1:20],ti2[1:20],30, model="logistic3P")
+ee3<-allmodelpredict(inc2[1:20],ti2[1:20],30, model="logistic3P")
 plot(ee3,which=c(1,2))
 
 ##using all built-in models (Incidence data example 1)
 ## information avalaible to the time point 22
 ## observation to predict: 30 
-ee4<-allmodel.predict(inc2[1:22],ti2[1:22],30, model="all")
+ee4<-allmodelpredict(inc2[1:22],ti2[1:22],30, model="all")
 plot(ee4,which=c(1,2,3,4))
 
 ##plot function for changetimeFSTP object

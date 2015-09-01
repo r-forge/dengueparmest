@@ -3,7 +3,7 @@
 \alias{DengueParmEst}
 \docType{package}
 \title{
-Parameter estimates (and real-time prediction) of a single dengue outbreak
+Parameter Estimates (and Real-Time Prediction) of a Single Dengue Outbreak
 }
 \description{
 The DengueParmEst package uses the incidence data from a single dengue outbreak and provides functions to estimate the final size, the turning point of the epidemic and to conduct a real-time prediction for these parameters using several nonlinear models taking into account model uncertainty using model averaging. Graphical tools for a visualization of the results are also included. 
@@ -21,7 +21,7 @@ License: \tab GPL-3\cr
 \author{
 Carlos Sebrango, Lizet Sanchez, Ziv Shkedy
 
-Maintainer: Carlos Sebrango<sebrango@uniss.edu.cu>, Ewoud De Troyer<ewouddetroyer@uhasselt.be>
+Maintainer: Carlos Sebrango <sebrango@uniss.edu.cu>, Ewoud De Troyer <ewoud.detroyer@uhasselt.be>
 }
 \references{
 K. Burnham, D. R. Anderson, Model Selection and Multimodel Inference: A Practical Information-theoretic Approach,

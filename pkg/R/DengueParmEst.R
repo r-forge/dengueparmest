@@ -8,7 +8,7 @@ require(drc)
 
 
 ####Richards model funtions
-Richards.m<-function(inc , time, start=NULL){
+Richardsm<-function(inc , time, start=NULL){
 if(is.null(start)){
 tt<-data.frame(inc,time)
 gi<-stats::getInitial(cumsum(inc) ~ SSRichards(time, Asym, xmid, scal, lpow), data = tt)
@@ -22,7 +22,7 @@ return(p)}
 
 
 ####3P logistic model 
-logistic3p.m <-function(inc, time, start=NULL){
+logistic3pm <-function(inc, time, start=NULL){
 if(is.null(start)){
 tt<-data.frame(inc,time)
 gi<-stats::getInitial(cumsum(inc) ~ SSlogis(time, Asym, xmid, scal), data = tt)
@@ -35,7 +35,7 @@ return(p)}
 
 
 ####Sigmoidal Emax Model
-SigmEmax.m <-function(inc, time, start=NULL){
+SigmEmaxm <-function(inc, time, start=NULL){
 if(is.null(start)){
 tt<-data.frame(inc,time)
 gi<-drm(cumsum(inc) ~time, data=tt,fct=LL.4())
@@ -48,7 +48,7 @@ return(p)}
 
 
 ####Gompertz model 4 parametrs
-gompertz.m <-function(inc, time, start=NULL){
+gompertzm <-function(inc, time, start=NULL){
 if(is.null(start)){
 tt<-data.frame(inc,time)
 gi<-stats::getInitial(cumsum(inc) ~ SSgompertz(time, Asym, b2, b3), data = tt)
@@ -62,7 +62,7 @@ return(p)}
 
 
 ####Modelo de Weibull
-weibull.m <-function(inc, time, start=NULL){
+weibullm <-function(inc, time, start=NULL){
 if(is.null(start)){
 tt<-data.frame(inc,time)
 gi<-stats::getInitial(cumsum(inc) ~ SSweibull(time, Asym, Drop, lrc, pwr), data = tt)
@@ -75,7 +75,7 @@ return(p)}
 
 
 ####5p logistic model
-logistic5p.m <-function(inc, time, start=NULL){
+logistic5pm <-function(inc, time, start=NULL){
 if(is.null(start)){
 tt<-data.frame(inc,time)
 gi<-drm(cumsum(inc) ~time, data=tt,fct=LL.5())
@@ -89,8 +89,8 @@ return(p)}
 
 #####model averaging weight function
 weight<-function(inc , time, start=NULL){
-aic<-AIC(Richards.m(inc , time, start[[1]]),logistic3p.m(inc , time, start[[2]]),SigmEmax.m(inc , time, start[[3]]),
-     gompertz.m(inc , time, start[[4]]),weibull.m(inc , time, start[[5]]),logistic5p.m(inc , time, start[[6]]))
+aic<-AIC(Richardsm(inc , time, start[[1]]),logistic3pm(inc , time, start[[2]]),SigmEmaxm (inc , time, start[[3]]),
+     gompertzm(inc , time, start[[4]]),weibullm(inc , time, start[[5]]),logistic5pm (inc , time, start[[6]]))
 minAIC<-min(aic[,2])
 deltaAIC<-aic[,2]-minAIC
 w<-signif(exp(-deltaAIC/2)/sum(exp(-deltaAIC/2)),6)
@@ -100,14 +100,14 @@ return(w)}
 
 
 ####Model averaging estimator Final size
-estim.FSize.MA<-function(inc , time, start=NULL){
-alpha.MA<-weight(inc , time, start)[1]*coef(Richards.m(inc , time, start[[1]]))[1] + weight(inc , time, start)[2]*coef(logistic3p.m(inc , time, start[[2]]))[1] + weight(inc , time, start)[3]*coef(SigmEmax.m(inc , time, start[[3]]))[1] +weight(inc , time, start)[4]*coef(gompertz.m(inc , time, start[[4]]))[1] +weight(inc , time, start)[5]*coef(weibull.m(inc , time, start[[5]]))[1] + weight(inc , time, start)[6]*coef(logistic5p.m(inc , time, start[[6]]))[1]
-stderror.alpha.MA<-weight(inc , time, start)[1]*sqrt(Richards.m(inc , time, start[[1]])$tTable[1, 2]^2 + (coef(Richards.m(inc , time, start[[1]]))[1]-alpha.MA)^2) + 
-weight(inc , time, start)[2]*sqrt(logistic3p.m(inc , time, start[[2]])$tTable[1, 2]^2 + (coef(logistic3p.m(inc , time, start[[2]]))[1]-alpha.MA)^2) + 
-weight(inc , time, start)[3]*sqrt(SigmEmax.m(inc , time, start[[3]])$tTable[1, 2]^2 + (coef(SigmEmax.m(inc , time, start[[3]]))[1]-alpha.MA)^2) + 
-weight(inc , time, start)[4]*sqrt(gompertz.m(inc , time, start[[4]])$tTable[1, 2]^2 + (coef(gompertz.m(inc , time, start[[4]]))[1]-alpha.MA)^2) + 
-weight(inc , time, start)[5]*sqrt(weibull.m(inc , time, start[[5]])$tTable[1, 2]^2 + (coef(weibull.m(inc , time, start[[5]]))[1]-alpha.MA)^2) + 
-weight(inc , time, start)[6]*sqrt(logistic5p.m(inc , time, start[[6]])$tTable[1, 2]^2 + (coef(logistic5p.m(inc , time, start[[6]]))[1]-alpha.MA)^2)
+estimFSizeMA<-function(inc , time, start=NULL){
+alpha.MA<-weight(inc , time, start)[1]*coef(Richardsm(inc , time, start[[1]]))[1] + weight(inc , time, start)[2]*coef(logistic3pm(inc , time, start[[2]]))[1] + weight(inc , time, start)[3]*coef(SigmEmaxm (inc , time, start[[3]]))[1] +weight(inc , time, start)[4]*coef(gompertzm(inc , time, start[[4]]))[1] +weight(inc , time, start)[5]*coef(weibullm(inc , time, start[[5]]))[1] + weight(inc , time, start)[6]*coef(logistic5pm (inc , time, start[[6]]))[1]
+stderror.alpha.MA<-weight(inc , time, start)[1]*sqrt(Richardsm(inc , time, start[[1]])$tTable[1, 2]^2 + (coef(Richardsm(inc , time, start[[1]]))[1]-alpha.MA)^2) + 
+weight(inc , time, start)[2]*sqrt(logistic3pm(inc , time, start[[2]])$tTable[1, 2]^2 + (coef(logistic3pm(inc , time, start[[2]]))[1]-alpha.MA)^2) + 
+weight(inc , time, start)[3]*sqrt(SigmEmaxm (inc , time, start[[3]])$tTable[1, 2]^2 + (coef(SigmEmaxm (inc , time, start[[3]]))[1]-alpha.MA)^2) + 
+weight(inc , time, start)[4]*sqrt(gompertzm(inc , time, start[[4]])$tTable[1, 2]^2 + (coef(gompertzm(inc , time, start[[4]]))[1]-alpha.MA)^2) + 
+weight(inc , time, start)[5]*sqrt(weibullm(inc , time, start[[5]])$tTable[1, 2]^2 + (coef(weibullm(inc , time, start[[5]]))[1]-alpha.MA)^2) + 
+weight(inc , time, start)[6]*sqrt(logistic5pm (inc , time, start[[6]])$tTable[1, 2]^2 + (coef(logistic5pm (inc , time, start[[6]]))[1]-alpha.MA)^2)
 low<-alpha.MA-qt(0.975,5)*stderror.alpha.MA
 up<-alpha.MA+qt(0.975,5)*stderror.alpha.MA
 names(alpha.MA)<-c("est.")
@@ -119,14 +119,14 @@ return(p)}
 
 ####Model averaging estimator Turning point 
 
-estim.Tpoint.MA<-function(inc , time, start=NULL){
-eta.MA<-weight(inc , time, start)[1]*coef(Richards.m(inc , time, start[[1]]))[4] + weight(inc , time, start)[2]*coef(logistic3p.m(inc , time, start[[2]]))[3] + weight(inc , time, start)[3]*coef(SigmEmax.m(inc , time, start[[3]]))[2] +weight(inc , time, start)[4]*coef(gompertz.m(inc , time, start[[4]]))[2] +weight(inc , time, start)[5]*coef(weibull.m(inc , time, start[[5]]))[2] + weight(inc , time, start)[6]*coef(logistic5p.m(inc , time, start[[6]]))[4]
-stderror.eta.MA<-weight(inc , time, start)[1]*sqrt(Richards.m(inc , time, start[[1]])$tTable[4, 2]^2 + (coef(Richards.m(inc , time, start[[1]]))[4]-eta.MA)^2) + 
-weight(inc , time, start)[2]*sqrt(logistic3p.m(inc , time, start[[2]])$tTable[3, 2]^2 + (coef(logistic3p.m(inc , time, start[[2]]))[3]-eta.MA)^2) + 
-weight(inc , time, start)[3]*sqrt(SigmEmax.m(inc , time, start[[3]])$tTable[2, 2]^2 + (coef(SigmEmax.m(inc , time, start[[3]]))[2]-eta.MA)^2) + 
-weight(inc , time, start)[4]*sqrt(gompertz.m(inc , time, start[[4]])$tTable[2, 2]^2 + (coef(gompertz.m(inc , time, start[[4]]))[2]-eta.MA)^2) + 
-weight(inc , time, start)[5]*sqrt(weibull.m(inc , time, start[[5]])$tTable[2, 2]^2 + (coef(weibull.m(inc , time, start[[5]]))[2]-eta.MA)^2) + 
-weight(inc , time, start)[6]*sqrt(logistic5p.m(inc , time, start[[6]])$tTable[4, 2]^2 + (coef(logistic5p.m(inc , time, start[[6]]))[4]-eta.MA)^2)
+estimTpointMA<-function(inc , time, start=NULL){
+eta.MA<-weight(inc , time, start)[1]*coef(Richardsm(inc , time, start[[1]]))[4] + weight(inc , time, start)[2]*coef(logistic3pm(inc , time, start[[2]]))[3] + weight(inc , time, start)[3]*coef(SigmEmaxm (inc , time, start[[3]]))[2] +weight(inc , time, start)[4]*coef(gompertzm(inc , time, start[[4]]))[2] +weight(inc , time, start)[5]*coef(weibullm(inc , time, start[[5]]))[2] + weight(inc , time, start)[6]*coef(logistic5pm (inc , time, start[[6]]))[4]
+stderror.eta.MA<-weight(inc , time, start)[1]*sqrt(Richardsm(inc , time, start[[1]])$tTable[4, 2]^2 + (coef(Richardsm(inc , time, start[[1]]))[4]-eta.MA)^2) + 
+weight(inc , time, start)[2]*sqrt(logistic3pm(inc , time, start[[2]])$tTable[3, 2]^2 + (coef(logistic3pm(inc , time, start[[2]]))[3]-eta.MA)^2) + 
+weight(inc , time, start)[3]*sqrt(SigmEmaxm (inc , time, start[[3]])$tTable[2, 2]^2 + (coef(SigmEmaxm (inc , time, start[[3]]))[2]-eta.MA)^2) + 
+weight(inc , time, start)[4]*sqrt(gompertzm(inc , time, start[[4]])$tTable[2, 2]^2 + (coef(gompertzm(inc , time, start[[4]]))[2]-eta.MA)^2) + 
+weight(inc , time, start)[5]*sqrt(weibullm(inc , time, start[[5]])$tTable[2, 2]^2 + (coef(weibullm(inc , time, start[[5]]))[2]-eta.MA)^2) + 
+weight(inc , time, start)[6]*sqrt(logistic5pm (inc , time, start[[6]])$tTable[4, 2]^2 + (coef(logistic5pm (inc , time, start[[6]]))[4]-eta.MA)^2)
 low<-eta.MA-qt(0.975,5)*stderror.eta.MA
 up<-eta.MA+qt(0.975,5)*stderror.eta.MA
 names(eta.MA)<-c("est.")
@@ -140,19 +140,19 @@ return(p)
 #### final size Confidence interval function
 CIFinalsize<-function(inc , time, start=NULL, model){
 switch(model,
-       Richards = {intervals(Richards.m(inc , time, start))$coef[1,]},
-       logistic3P = {intervals(logistic3p.m(inc , time, start))$coef[1,]},
-       SigmEmax = {intervals(SigmEmax.m(inc , time, start))$coef[1,]},
-       Gompertz = {intervals(gompertz.m(inc , time, start))$coef[1,]},
-       Weibull = {intervals(weibull.m(inc , time, start))$coef[1,]},
-       logistic5P = {intervals(logistic5p.m(inc , time, start))$coef[1,]},
-       all = {p<-rbind(intervals(Richards.m(inc , time, start[[1]]))$coef[1,],
-                  intervals(logistic3p.m(inc , time, start[[2]]))$coef[1,],
-                  intervals(SigmEmax.m(inc , time, start[[3]]))$coef[1,],
-                  intervals(gompertz.m(inc , time, start[[4]]))$coef[1,],
-                  intervals(weibull.m(inc , time, start[[5]]))$coef[1,],
-                  intervals(logistic5p.m(inc , time, start[[6]]))$coef[1,],
-                  estim.FSize.MA(inc , time, start))
+       Richards = {intervals(Richardsm(inc , time, start))$coef[1,]},
+       logistic3P = {intervals(logistic3pm(inc , time, start))$coef[1,]},
+       SigmEmax = {intervals(SigmEmaxm (inc , time, start))$coef[1,]},
+       Gompertz = {intervals(gompertzm(inc , time, start))$coef[1,]},
+       Weibull = {intervals(weibullm(inc , time, start))$coef[1,]},
+       logistic5P = {intervals(logistic5pm (inc , time, start))$coef[1,]},
+       all = {p<-rbind(intervals(Richardsm(inc , time, start[[1]]))$coef[1,],
+                  intervals(logistic3pm(inc , time, start[[2]]))$coef[1,],
+                  intervals(SigmEmaxm (inc , time, start[[3]]))$coef[1,],
+                  intervals(gompertzm(inc , time, start[[4]]))$coef[1,],
+                  intervals(weibullm(inc , time, start[[5]]))$coef[1,],
+                  intervals(logistic5pm (inc , time, start[[6]]))$coef[1,],
+                  estimFSizeMA(inc , time, start))
                   rownames(p)<-c("Richards","3P logistic","SigmEmax","Gompertz",
                                   "Weibull","5P logistic","Model averaged")
                   p},
@@ -163,19 +163,19 @@ switch(model,
 #### turning point Confidence interval  function
 CIturningpoint<-function(inc , time, start=NULL, model){
 switch(model,
-       Richards = {intervals(Richards.m(inc , time, start))$coef[4,]},
-       logistic3P = {intervals(logistic3p.m(inc , time, start))$coef[3,]},
-       SigmEmax = {intervals(SigmEmax.m(inc , time, start))$coef[2,]},
-       Gompertz = {intervals(gompertz.m(inc , time, start))$coef[2,]},
-       Weibull = {intervals(weibull.m(inc , time, start))$coef[2,]},
-       logistic5P = {intervals(logistic5p.m(inc , time, start))$coef[4,]},
-       all = {p<-rbind(intervals(Richards.m(inc , time, start[[1]]))$coef[4,],
-                  intervals(logistic3p.m(inc , time, start[[2]]))$coef[3,],
-                  intervals(SigmEmax.m(inc , time, start[[3]]))$coef[2,],
-                  intervals(gompertz.m(inc , time, start[[4]]))$coef[2,],
-                  intervals(weibull.m(inc , time, start[[5]]))$coef[2,],
-                  intervals(logistic5p.m(inc , time, start[[6]]))$coef[4,],
-                  estim.Tpoint.MA(inc , time, start))
+       Richards = {intervals(Richardsm(inc , time, start))$coef[4,]},
+       logistic3P = {intervals(logistic3pm(inc , time, start))$coef[3,]},
+       SigmEmax = {intervals(SigmEmaxm (inc , time, start))$coef[2,]},
+       Gompertz = {intervals(gompertzm(inc , time, start))$coef[2,]},
+       Weibull = {intervals(weibullm(inc , time, start))$coef[2,]},
+       logistic5P = {intervals(logistic5pm (inc , time, start))$coef[4,]},
+       all = {p<-rbind(intervals(Richardsm(inc , time, start[[1]]))$coef[4,],
+                  intervals(logistic3pm(inc , time, start[[2]]))$coef[3,],
+                  intervals(SigmEmaxm (inc , time, start[[3]]))$coef[2,],
+                  intervals(gompertzm(inc , time, start[[4]]))$coef[2,],
+                  intervals(weibullm(inc , time, start[[5]]))$coef[2,],
+                  intervals(logistic5pm (inc , time, start[[6]]))$coef[4,],
+                  estimTpointMA(inc , time, start))
                   rownames(p)<-c("Richards","3P logistic","SigmEmax","Gompertz",
                                   "Weibull","5P logistic","Model averaged")
                   p},
@@ -183,171 +183,171 @@ switch(model,
 }
 
 
-allmodel.m<-function(inc , time, start=NULL, model){
+allmodels<-function(inc , time, start=NULL, model){
 switch(model,
-       Richards = {w<-Richards.m(inc , time, start)$AIC
+       Richards = {w<-Richardsm(inc , time, start)$AIC
                    names(w)<-c("")
                    r0<-w
-                   r1<-Richards.m(inc , time, start)$tTable
-                   r2<-intervals(Richards.m(inc , time, start))$coef[1,]
-                   r3<-intervals(Richards.m(inc , time, start))$coef[4,]
-                   r4<-predict(Richards.m(inc , time, start))
+                   r1<-Richardsm(inc , time, start)$tTable
+                   r2<-intervals(Richardsm(inc , time, start))$coef[1,]
+                   r3<-intervals(Richardsm(inc , time, start))$coef[4,]
+                   r4<-predict(Richardsm(inc , time, start))
                    pp1<-D(expression(alpha*((1+k*exp(-gamma*k*(t-eta)))^(-1/k))),"t")
-                   alpha<-coef(Richards.m(inc , time, start))[1]
-                   k<-coef(Richards.m(inc , time, start))[2]
-                   gamma<-coef(Richards.m(inc , time, start))[3]
-                   eta<-coef(Richards.m(inc , time, start))[4]
+                   alpha<-coef(Richardsm(inc , time, start))[1]
+                   k<-coef(Richardsm(inc , time, start))[2]
+                   gamma<-coef(Richardsm(inc , time, start))[3]
+                   eta<-coef(Richardsm(inc , time, start))[4]
                    t<-time
                    r5<-eval(pp1)
-			output = list(Incidence=inc, Time=time,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodel.m",model.type="Richards")
+			output = list(Incidence=inc, Time=time,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodels",model.type="Richards")
 			class(output) = "dengue"	
 			return(output)
                   },
-      logistic3P = {w<-logistic3p.m(inc , time, start)$AIC
+      logistic3P = {w<-logistic3pm(inc , time, start)$AIC
                    names(w)<-c("")
                    r0<-w
-                   r1<-logistic3p.m(inc , time, start)$tTable
-                   r2<-intervals(logistic3p.m(inc , time, start))$coef[1,]
-                   r3<-intervals(logistic3p.m(inc , time, start))$coef[3,]
-                   r4<-predict(logistic3p.m(inc , time, start))
+                   r1<-logistic3pm(inc , time, start)$tTable
+                   r2<-intervals(logistic3pm(inc , time, start))$coef[1,]
+                   r3<-intervals(logistic3pm(inc , time, start))$coef[3,]
+                   r4<-predict(logistic3pm(inc , time, start))
                    pp2<-D(expression(alpha/(1+exp(-gamma*(t-eta)))),"t")
-                   alpha<-coef(logistic3p.m(inc , time, start))[1]
-                   gamma<-coef(logistic3p.m(inc , time, start))[2]
-                   eta<-coef(logistic3p.m(inc , time, start))[3]
+                   alpha<-coef(logistic3pm(inc , time, start))[1]
+                   gamma<-coef(logistic3pm(inc , time, start))[2]
+                   eta<-coef(logistic3pm(inc , time, start))[3]
                    t<-time
                    r5<-eval(pp2)
-			output = list(Incidence=inc, Time=time,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodel.m",model.type="logistic3P")
+			output = list(Incidence=inc, Time=time,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodels",model.type="logistic3P")
 			class(output) = "dengue"	
 			return(output)
                   },
-       SigmEmax = {w<-SigmEmax.m(inc , time, start)$AIC
+       SigmEmax = {w<-SigmEmaxm (inc , time, start)$AIC
                    names(w)<-c("")
                    r0<-w
-                   r1<-SigmEmax.m(inc , time, start)$tTable
-                   r2<-intervals(SigmEmax.m(inc , time, start))$coef[1,]
-                   r3<-intervals(SigmEmax.m(inc , time, start))$coef[2,]
-                   r4<-predict(SigmEmax.m(inc , time, start))
+                   r1<-SigmEmaxm (inc , time, start)$tTable
+                   r2<-intervals(SigmEmaxm (inc , time, start))$coef[1,]
+                   r3<-intervals(SigmEmaxm (inc , time, start))$coef[2,]
+                   r4<-predict(SigmEmaxm (inc , time, start))
                    pp3<-D(expression(e0 + (t^n)*(alpha-e0)/(t^n + eta^n)),"t")
-                   alpha<-coef(SigmEmax.m(inc , time, start))[1]
-                   eta<-coef(SigmEmax.m(inc , time, start))[2]
-                   e0<-coef(SigmEmax.m(inc , time, start))[3]
-                   n<-coef(SigmEmax.m(inc , time, start))[4]
+                   alpha<-coef(SigmEmaxm (inc , time, start))[1]
+                   eta<-coef(SigmEmaxm (inc , time, start))[2]
+                   e0<-coef(SigmEmaxm (inc , time, start))[3]
+                   n<-coef(SigmEmaxm (inc , time, start))[4]
                    t<-time
                    r5<-eval(pp3)
-			output = list(Incidence=inc, Time=time,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodel.m",model.type="SigmEmax")
+			output = list(Incidence=inc, Time=time,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodels",model.type="SigmEmax")
 			class(output) = "dengue"	
 			return(output)
                   },
-       Gompertz = {w<-gompertz.m(inc , time, start)$AIC
+       Gompertz = {w<-gompertzm(inc , time, start)$AIC
                    names(w)<-c("")
                    r0<-w
-                   r1<-gompertz.m(inc , time, start)$tTable
-                   r2<-intervals(gompertz.m(inc , time, start))$coef[1,]
-                   r3<-intervals(gompertz.m(inc , time, start))$coef[2,]
-                   r4<-predict(gompertz.m(inc , time, start))
+                   r1<-gompertzm(inc , time, start)$tTable
+                   r2<-intervals(gompertzm(inc , time, start))$coef[1,]
+                   r3<-intervals(gompertzm(inc , time, start))$coef[2,]
+                   r4<-predict(gompertzm(inc , time, start))
                    pp4<-D(expression(e0 + (alpha-e0)*exp(-exp(-k*(t-eta)))),"t")
-                   alpha<-coef(gompertz.m(inc , time, start))[1]
-                   eta<-coef(gompertz.m(inc , time, start))[2]
-                   e0<-coef(gompertz.m(inc , time, start))[3]
-                   k<-coef(gompertz.m(inc , time, start))[4]
+                   alpha<-coef(gompertzm(inc , time, start))[1]
+                   eta<-coef(gompertzm(inc , time, start))[2]
+                   e0<-coef(gompertzm(inc , time, start))[3]
+                   k<-coef(gompertzm(inc , time, start))[4]
                    t<-time
                    r5<-eval(pp4)
-			output = list(Incidence=inc, Time=time,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodel.m",model.type="Gompertz")
+			output = list(Incidence=inc, Time=time,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodels",model.type="Gompertz")
 			class(output) = "dengue"	
 			return(output)
                   },
-       Weibull =  {w<-weibull.m(inc , time, start)$AIC
+       Weibull =  {w<-weibullm(inc , time, start)$AIC
                    names(w)<-c("")
                    r0<-w
-                   r1<-weibull.m(inc , time, start)$tTable
-                   r2<-intervals(weibull.m(inc , time, start))$coef[1,]
-                   r3<-intervals(weibull.m(inc , time, start))$coef[2,]
-                   r4<-predict(weibull.m(inc , time, start))
+                   r1<-weibullm(inc , time, start)$tTable
+                   r2<-intervals(weibullm(inc , time, start))$coef[1,]
+                   r3<-intervals(weibullm(inc , time, start))$coef[2,]
+                   r4<-predict(weibullm(inc , time, start))
                    pp5<-D(expression(e0 + (alpha-e0)*exp(-(t/eta)^-gamma)),"t")
-                   alpha<-coef(weibull.m(inc , time, start))[1]
-                   eta<-coef(weibull.m(inc , time, start))[2]
-                   e0<-coef(weibull.m(inc , time, start))[3]
-                   gamma<-coef(weibull.m(inc , time, start))[4]
+                   alpha<-coef(weibullm(inc , time, start))[1]
+                   eta<-coef(weibullm(inc , time, start))[2]
+                   e0<-coef(weibullm(inc , time, start))[3]
+                   gamma<-coef(weibullm(inc , time, start))[4]
                    t<-time
                    r5<-eval(pp5)
-			output = list(Incidence=inc, Time=time,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodel.m",model.type="Weibull")
+			output = list(Incidence=inc, Time=time,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodels",model.type="Weibull")
 			class(output) = "dengue"	
 			return(output)
                   },
-     logistic5P = {w<-logistic5p.m(inc , time, start)$AIC
+     logistic5P = {w<-logistic5pm (inc , time, start)$AIC
                    names(w)<-c("")
                    r0<-w
-                   r1<-logistic5p.m(inc , time, start)$tTable
-                   r2<-intervals(logistic5p.m(inc , time, start))$coef[1,]
-                   r3<-intervals(logistic5p.m(inc , time, start))$coef[4,]
-                   r4<-predict(logistic5p.m(inc , time, start))
+                   r1<-logistic5pm (inc , time, start)$tTable
+                   r2<-intervals(logistic5pm (inc , time, start))$coef[1,]
+                   r3<-intervals(logistic5pm (inc , time, start))$coef[4,]
+                   r4<-predict(logistic5pm (inc , time, start))
                    pp6<-D(expression(d+ (alpha-d)/(1+(2**(1/g)-1)*(t/eta)**-b)**g),"t")
-                   alpha<-coef(logistic5p.m(inc , time, start))[1]
-                   d<-coef(logistic5p.m(inc , time, start))[2]
-                   g<-coef(logistic5p.m(inc , time, start))[3]
-                   eta<-coef(logistic5p.m(inc , time, start))[4]
-                   b<-coef(logistic5p.m(inc , time, start))[4]
+                   alpha<-coef(logistic5pm (inc , time, start))[1]
+                   d<-coef(logistic5pm (inc , time, start))[2]
+                   g<-coef(logistic5pm (inc , time, start))[3]
+                   eta<-coef(logistic5pm (inc , time, start))[4]
+                   b<-coef(logistic5pm (inc , time, start))[4]
                    t<-time
                    r5<-eval(pp6)
-			output = list(Incidence=inc, Time=time,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodel.m",model.type="logistic5P")
+			output = list(Incidence=inc, Time=time,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodels",model.type="logistic5P")
 			class(output) = "dengue"	
 			return(output)
                   },
-       all = {w<-AIC(Richards.m(inc , time, start[[1]]),logistic3p.m(inc , time, start[[2]]),SigmEmax.m(inc , time, start[[3]]),
-                     gompertz.m(inc , time, start[[4]]),weibull.m(inc , time, start[[5]]),logistic5p.m(inc , time, start[[6]]))[,2]
+       all = {w<-AIC(Richardsm(inc , time, start[[1]]),logistic3pm(inc , time, start[[2]]),SigmEmaxm (inc , time, start[[3]]),
+                     gompertzm(inc , time, start[[4]]),weibullm(inc , time, start[[5]]),logistic5pm (inc , time, start[[6]]))[,2]
                  names(w)<-c("Richards","3P Logistic","Sigmoidal Emax","Gompertz","Weibull","5P Logistic")
                p0<-w
                p1<-weight(inc , time, start)
                p2<-CIFinalsize(inc , time, start,model)
                p3<-CIturningpoint(inc , time, start, model)
-               p41<-predict(Richards.m(inc , time, start[[1]]))
-               p42<-predict(logistic3p.m(inc , time, start[[2]]))
-               p43<-predict(SigmEmax.m(inc , time, start[[3]]))
-               p44<-predict(gompertz.m(inc , time, start[[4]]))
-               p45<-predict(weibull.m(inc , time, start[[5]]))
-               p46<-predict(logistic5p.m(inc , time, start[[6]]))
+               p41<-predict(Richardsm(inc , time, start[[1]]))
+               p42<-predict(logistic3pm(inc , time, start[[2]]))
+               p43<-predict(SigmEmaxm (inc , time, start[[3]]))
+               p44<-predict(gompertzm(inc , time, start[[4]]))
+               p45<-predict(weibullm(inc , time, start[[5]]))
+               p46<-predict(logistic5pm (inc , time, start[[6]]))
                p4<-list(p41,p42,p43,p44,p45,p46)
                p5<-weight(inc , time, start)[1]*p41 + weight(inc , time, start)[2]*p42 + weight(inc , time, start)[3]*p43 +weight(inc , time, start)[4]*p44 +weight(inc , time, start)[5]*p45 + weight(inc , time, start)[6]*p46
                pp1<-D(expression(alpha*((1+k*exp(-gamma*k*(t-eta)))^(-1/k))),"t")
-               alpha<-coef(Richards.m(inc , time, start[1]))[1]
-               k<-coef(Richards.m(inc , time, start[1]))[2]
-               gamma<-coef(Richards.m(inc , time, start[1]))[3]
-               eta<-coef(Richards.m(inc , time, start[1]))[4]
+               alpha<-coef(Richardsm(inc , time, start[1]))[1]
+               k<-coef(Richardsm(inc , time, start[1]))[2]
+               gamma<-coef(Richardsm(inc , time, start[1]))[3]
+               eta<-coef(Richardsm(inc , time, start[1]))[4]
                t<-time
                p61<-eval(pp1)
                pp2<-D(expression(alpha/(1+exp(-gamma*(t-eta)))),"t")
-               alpha<-coef(logistic3p.m(inc , time, start[2]))[1]
-               gamma<-coef(logistic3p.m(inc , time, start[2]))[2]
-               eta<-coef(logistic3p.m(inc , time, start[2]))[3]
+               alpha<-coef(logistic3pm(inc , time, start[2]))[1]
+               gamma<-coef(logistic3pm(inc , time, start[2]))[2]
+               eta<-coef(logistic3pm(inc , time, start[2]))[3]
                p62<-eval(pp2)
                pp3<-D(expression(e0 + (t^n)*(alpha-e0)/(t^n + eta^n)),"t")
-               alpha<-coef(SigmEmax.m(inc , time, start[3]))[1]
-               eta<-coef(SigmEmax.m(inc , time, start[3]))[2]
-               e0<-coef(SigmEmax.m(inc , time, start[3]))[3]
-                n<-coef(SigmEmax.m(inc , time, start[3]))[4]
+               alpha<-coef(SigmEmaxm (inc , time, start[3]))[1]
+               eta<-coef(SigmEmaxm (inc , time, start[3]))[2]
+               e0<-coef(SigmEmaxm (inc , time, start[3]))[3]
+                n<-coef(SigmEmaxm (inc , time, start[3]))[4]
                p63<-eval(pp3)
                pp4<-D(expression(e0 + (alpha-e0)*exp(-exp(-k*(t-eta)))),"t")
-               alpha<-coef(gompertz.m(inc , time, start[4]))[1]
-               eta<-coef(gompertz.m(inc , time, start[4]))[2]
-               e0<-coef(gompertz.m(inc , time, start[4]))[3]
-               k<-coef(gompertz.m(inc , time, start[4]))[4]
+               alpha<-coef(gompertzm(inc , time, start[4]))[1]
+               eta<-coef(gompertzm(inc , time, start[4]))[2]
+               e0<-coef(gompertzm(inc , time, start[4]))[3]
+               k<-coef(gompertzm(inc , time, start[4]))[4]
                p64<-eval(pp4)
                pp5<-D(expression(e0 + (alpha-e0)*exp(-(t/eta)^-gamma)),"t")
-               alpha<-coef(weibull.m(inc , time, start[5]))[1]
-               eta<-coef(weibull.m(inc , time, start[5]))[2]
-               e0<-coef(weibull.m(inc , time, start[5]))[3]
-               gamma<-coef(weibull.m(inc , time, start[5]))[4]
+               alpha<-coef(weibullm(inc , time, start[5]))[1]
+               eta<-coef(weibullm(inc , time, start[5]))[2]
+               e0<-coef(weibullm(inc , time, start[5]))[3]
+               gamma<-coef(weibullm(inc , time, start[5]))[4]
                p65<-eval(pp5)
                pp6<-D(expression(d+ (alpha-d)/(1+(2**(1/g)-1)*(t/eta)**-b)**g),"t")
-               alpha<-coef(logistic5p.m(inc , time, start[6]))[1]
-               d<-coef(logistic5p.m(inc , time, start[6]))[2]
-               g<-coef(logistic5p.m(inc , time, start[6]))[3]
-               eta<-coef(logistic5p.m(inc , time, start[6]))[4]
-               b<-coef(logistic5p.m(inc , time, start[6]))[5]
+               alpha<-coef(logistic5pm (inc , time, start[6]))[1]
+               d<-coef(logistic5pm (inc , time, start[6]))[2]
+               g<-coef(logistic5pm (inc , time, start[6]))[3]
+               eta<-coef(logistic5pm (inc , time, start[6]))[4]
+               b<-coef(logistic5pm (inc , time, start[6]))[5]
                p66<-eval(pp6)
                p6<-list(p61,p62,p63,p64,p65,p66)
                p7<-weight(inc , time, start)[1]*p61 + weight(inc , time, start)[2]*p62 + weight(inc , time, start)[3]*p63 +weight(inc , time, start)[4]*p64 +weight(inc , time, start)[5]*p65 + weight(inc , time, start)[6]*p66
-               output = list(Incidence=inc, Time=time,AIC=p0,Weights=p1,FinalSize=p2,TurningPoint=p3,Predict=p4,PredictMA=p5,PredInc=p6, PredMAinc=p7,function.type="allmodel.m",model.type="all")
+               output = list(Incidence=inc, Time=time,AIC=p0,Weights=p1,FinalSize=p2,TurningPoint=p3,Predict=p4,PredictMA=p5,PredInc=p6, PredMAinc=p7,function.type="allmodels",model.type="all")
                class(output) = "dengue"
 		   return(output)},
      {stop("This model name is not correct")})
@@ -356,7 +356,7 @@ switch(model,
 
 ### SUMMARY FUNCTION
 summary.dengue <- function(object,...){
-   if(object$function.type=="allmodel.m"){
+   if(object$function.type=="allmodels"){
            if(object$model.type!="all"){
                 if(object$model.type=="Richards")
                 {cat("\nRichards model\n")}
@@ -388,7 +388,7 @@ summary.dengue <- function(object,...){
                 print(object$TurningPoint)
                 }
           }
-       if(object$function.type=="allmodel.predict"){
+       if(object$function.type=="allmodelpredict"){
             if(object$model.type!="all"){
                 if(object$model.type=="Richards")
                 {cat("\nRichards model\n")}
@@ -441,7 +441,7 @@ plot.dengue= function(x,which=c(1,2),xlab="",...){
              t<-as.character(c("Richards","3P logistic","Sigmoidal Emax","Gompertz","Weibull","5p logistic","Model averaged"))
              t<-factor(t,levels=c("Richards","3P logistic","Sigmoidal Emax","Gompertz","Weibull","5p logistic","Model averaged"))
      if( 1 %in% which){
-         if(x$function.type=="allmodel.m"){
+         if(x$function.type=="allmodels"){
              dev.new()
 		if(x$model.type == "Richards"){
               plot(x$Time,cumsum(x$Incidence),pch=19,xlab=xlab,ylab="Cumulative number of cases",xlim=c(0,length(x$Incidence)+3),ylim=c(0,max(cumsum(x$Incidence))+10),...)
@@ -502,7 +502,7 @@ plot.dengue= function(x,which=c(1,2),xlab="",...){
           }      
      }
        if( 2 %in% which){
-           if(x$function.type=="allmodel.m"){
+           if(x$function.type=="allmodels"){
              dev.new()
 		if(x$model.type == "Richards"){
               plot(x$Time,x$Incidence,type="h",lwd=6,xlab=xlab,ylab="Reported cases",xlim=c(0,length(x$Incidence)+3),ylim=c(0,max(x$Incidence)+5),...)
@@ -630,171 +630,171 @@ plot.dengue= function(x,which=c(1,2),xlab="",...){
 
  
      
-allmodel.predict<-function(inc , time, pred, start=NULL, model){
+allmodelpredict<-function(inc , time, pred, start=NULL, model){
 switch(model,
-       Richards = {w<-Richards.m(inc , time, start)$AIC
+       Richards = {w<-Richardsm(inc , time, start)$AIC
                    names(w)<-c("")
                    r0<-w
-                   r1<-Richards.m(inc , time, start)$tTable
-                   r2<-intervals(Richards.m(inc , time, start))$coef[1,]
-                   r3<-intervals(Richards.m(inc , time, start))$coef[4,]
+                   r1<-Richardsm(inc , time, start)$tTable
+                   r2<-intervals(Richardsm(inc , time, start))$coef[1,]
+                   r3<-intervals(Richardsm(inc , time, start))$coef[4,]
                    pp1<-D(expression(alpha*((1+k*exp(-gamma*k*(t-eta)))^(-1/k))),"t")
-                   alpha<-coef(Richards.m(inc , time, start))[1]
-                   k<-coef(Richards.m(inc , time, start))[2]
-                   gamma<-coef(Richards.m(inc , time, start))[3]
-                   eta<-coef(Richards.m(inc , time, start))[4]
+                   alpha<-coef(Richardsm(inc , time, start))[1]
+                   k<-coef(Richardsm(inc , time, start))[2]
+                   gamma<-coef(Richardsm(inc , time, start))[3]
+                   eta<-coef(Richardsm(inc , time, start))[4]
                    t<-c(1:pred)
                    r5<-eval(pp1)
                    r4<-alpha*(1+k*exp(-gamma*k*(t-eta)))^(-1/k)
-			output = list(Incidence=inc, Time=time,PredTime=t, AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodel.predict",model.type="Richards")
+			output = list(Incidence=inc, Time=time,PredTime=t, AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodelpredict",model.type="Richards")
 			class(output) = "dengue"	
 			return(output)
                   },
-      logistic3P = {w<-logistic3p.m(inc , time, start)$AIC
+      logistic3P = {w<-logistic3pm(inc , time, start)$AIC
                    names(w)<-c("")
                    r0<-w
-                   r1<-logistic3p.m(inc , time, start)$tTable
-                   r2<-intervals(logistic3p.m(inc , time, start))$coef[1,]
-                   r3<-intervals(logistic3p.m(inc , time, start))$coef[3,]
+                   r1<-logistic3pm(inc , time, start)$tTable
+                   r2<-intervals(logistic3pm(inc , time, start))$coef[1,]
+                   r3<-intervals(logistic3pm(inc , time, start))$coef[3,]
                    pp2<-D(expression(alpha/(1+exp(-gamma*(t-eta)))),"t")
-                   alpha<-coef(logistic3p.m(inc , time, start))[1]
-                   gamma<-coef(logistic3p.m(inc , time, start))[2]
-                   eta<-coef(logistic3p.m(inc , time, start))[3]
+                   alpha<-coef(logistic3pm(inc , time, start))[1]
+                   gamma<-coef(logistic3pm(inc , time, start))[2]
+                   eta<-coef(logistic3pm(inc , time, start))[3]
                    t<-c(1:pred)
                    r4<-alpha/(1+exp(-gamma*(t-eta)))
                    r5<-eval(pp2)
-			output = list(Incidence=inc, Time=time,PredTime=t,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodel.predict",model.type="logistic3P")
+			output = list(Incidence=inc, Time=time,PredTime=t,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodelpredict",model.type="logistic3P")
 			class(output) = "dengue"	
 			return(output)
                   },
-       SigmEmax = {w<-SigmEmax.m(inc , time, start)$AIC
+       SigmEmax = {w<-SigmEmaxm (inc , time, start)$AIC
                    names(w)<-c("")
                    r0<-w
-                   r1<-SigmEmax.m(inc , time, start)$tTable
-                   r2<-intervals(SigmEmax.m(inc , time, start))$coef[1,]
-                   r3<-intervals(SigmEmax.m(inc , time, start))$coef[2,]
+                   r1<-SigmEmaxm (inc , time, start)$tTable
+                   r2<-intervals(SigmEmaxm (inc , time, start))$coef[1,]
+                   r3<-intervals(SigmEmaxm (inc , time, start))$coef[2,]
                    pp3<-D(expression(e0 + (t^n)*(alpha-e0)/(t^n + eta^n)),"t")
-                   alpha<-coef(SigmEmax.m(inc , time, start))[1]
-                   eta<-coef(SigmEmax.m(inc , time, start))[2]
-                   e0<-coef(SigmEmax.m(inc , time, start))[3]
-                   n<-coef(SigmEmax.m(inc , time, start))[4]
+                   alpha<-coef(SigmEmaxm (inc , time, start))[1]
+                   eta<-coef(SigmEmaxm (inc , time, start))[2]
+                   e0<-coef(SigmEmaxm (inc , time, start))[3]
+                   n<-coef(SigmEmaxm (inc , time, start))[4]
                    t<-c(1:pred)
                    r5<-eval(pp3)
                    r4<-e0 + (t^n)*(alpha-e0)/(t^n + eta^n)
-			output = list(Incidence=inc, Time=time,PredTime=t,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodel.predict",model.type="SigmEmax")
+			output = list(Incidence=inc, Time=time,PredTime=t,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodelpredict",model.type="SigmEmax")
 			class(output) = "dengue"	
 			return(output)
                   },
-       Gompertz = {w<-gompertz.m(inc , time, start)$AIC
+       Gompertz = {w<-gompertzm(inc , time, start)$AIC
                    names(w)<-c("")
                    r0<-w
-                   r1<-gompertz.m(inc , time, start)$tTable
-                   r2<-intervals(gompertz.m(inc , time, start))$coef[1,]
-                   r3<-intervals(gompertz.m(inc , time, start))$coef[2,]
+                   r1<-gompertzm(inc , time, start)$tTable
+                   r2<-intervals(gompertzm(inc , time, start))$coef[1,]
+                   r3<-intervals(gompertzm(inc , time, start))$coef[2,]
                    pp4<-D(expression(e0 + (alpha-e0)*exp(-exp(-k*(t-eta)))),"t")
-                   alpha<-coef(gompertz.m(inc , time, start))[1]
-                   eta<-coef(gompertz.m(inc , time, start))[2]
-                   e0<-coef(gompertz.m(inc , time, start))[3]
-                   k<-coef(gompertz.m(inc , time, start))[4]
+                   alpha<-coef(gompertzm(inc , time, start))[1]
+                   eta<-coef(gompertzm(inc , time, start))[2]
+                   e0<-coef(gompertzm(inc , time, start))[3]
+                   k<-coef(gompertzm(inc , time, start))[4]
                    t<-c(1:pred)
                    r5<-eval(pp4)
                    r4<-e0 + (alpha-e0)*exp(-exp(-k*(t-eta)))
-			output = list(Incidence=inc, Time=time,PredTime=t,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodel.predict",model.type="Gompertz")
+			output = list(Incidence=inc, Time=time,PredTime=t,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodelpredict",model.type="Gompertz")
 			class(output) = "dengue"	
 			return(output)
                   },
-       Weibull =  {w<-weibull.m(inc , time, start)$AIC
+       Weibull =  {w<-weibullm(inc , time, start)$AIC
                    names(w)<-c("")
                    r0<-w
-                   r1<-weibull.m(inc , time, start)$tTable
-                   r2<-intervals(weibull.m(inc , time, start))$coef[1,]
-                   r3<-intervals(weibull.m(inc , time, start))$coef[2,]
+                   r1<-weibullm(inc , time, start)$tTable
+                   r2<-intervals(weibullm(inc , time, start))$coef[1,]
+                   r3<-intervals(weibullm(inc , time, start))$coef[2,]
                    pp5<-D(expression(e0 + (alpha-e0)*exp(-(t/eta)^-gamma)),"t")
-                   alpha<-coef(weibull.m(inc , time, start))[1]
-                   eta<-coef(weibull.m(inc , time, start))[2]
-                   e0<-coef(weibull.m(inc , time, start))[3]
-                   gamma<-coef(weibull.m(inc , time, start))[4]
+                   alpha<-coef(weibullm(inc , time, start))[1]
+                   eta<-coef(weibullm(inc , time, start))[2]
+                   e0<-coef(weibullm(inc , time, start))[3]
+                   gamma<-coef(weibullm(inc , time, start))[4]
                    t<-c(1:pred)
                    r5<-eval(pp5)
                    r4<-e0 + (alpha-e0)*exp(-(t/eta)^-gamma)
-			output = list(Incidence=inc, Time=time,PredTime=t,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodel.predict",model.type="Weibull")
+			output = list(Incidence=inc, Time=time,PredTime=t,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodelpredict",model.type="Weibull")
 			class(output) = "dengue"	
 			return(output)
                   },
-     logistic5P = {w<-logistic5p.m(inc , time, start)$AIC
+     logistic5P = {w<-logistic5pm (inc , time, start)$AIC
                    names(w)<-c("")
                    r0<-w
-                   r1<-logistic5p.m(inc , time, start)$tTable
-                   r2<-intervals(logistic5p.m(inc , time, start))$coef[1,]
-                   r3<-intervals(logistic5p.m(inc , time, start))$coef[4,]
+                   r1<-logistic5pm (inc , time, start)$tTable
+                   r2<-intervals(logistic5pm (inc , time, start))$coef[1,]
+                   r3<-intervals(logistic5pm (inc , time, start))$coef[4,]
                    pp6<-D(expression(d+ (alpha-d)/(1+(2**(1/g)-1)*(t/eta)**-b)**g),"t")
-                   alpha<-coef(logistic5p.m(inc , time, start))[1]
-                   d<-coef(logistic5p.m(inc , time, start))[2]
-                   g<-coef(logistic5p.m(inc , time, start))[3]
-                   eta<-coef(logistic5p.m(inc , time, start))[4]
-                   b<-coef(logistic5p.m(inc , time, start))[4]
+                   alpha<-coef(logistic5pm (inc , time, start))[1]
+                   d<-coef(logistic5pm (inc , time, start))[2]
+                   g<-coef(logistic5pm (inc , time, start))[3]
+                   eta<-coef(logistic5pm (inc , time, start))[4]
+                   b<-coef(logistic5pm (inc , time, start))[4]
                    t<-c(1:pred)
                    r5<-eval(pp6)
                    r4<-d+ (alpha-d)/(1+(2**(1/g)-1)*(t/eta)**-b)**g
-			output = list(Incidence=inc, Time=time,PredTime=t,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodel.predict",model.type="logistic5P")
+			output = list(Incidence=inc, Time=time,PredTime=t,AIC=r0,tTable=r1,FinalSize=r2,TurningPoint=r3,Predict=r4,PredInc=r5,function.type="allmodelpredict",model.type="logistic5P")
 			class(output) = "dengue"	
 			return(output)
                   },
-       all = {w<-AIC(Richards.m(inc , time, start[[1]]),logistic3p.m(inc , time, start[[2]]),SigmEmax.m(inc , time, start[[3]]),
-                     gompertz.m(inc , time, start[[4]]),weibull.m(inc , time, start[[5]]),logistic5p.m(inc , time, start[[6]]))[,2]
+       all = {w<-AIC(Richardsm(inc , time, start[[1]]),logistic3pm(inc , time, start[[2]]),SigmEmaxm (inc , time, start[[3]]),
+                     gompertzm(inc , time, start[[4]]),weibullm(inc , time, start[[5]]),logistic5pm (inc , time, start[[6]]))[,2]
                  names(w)<-c("Richards","3P Logistic","Sigmoidal Emax","Gompertz","Weibull","5P Logistic")
                p0<-w
                p1<-weight(inc , time, start)
                p2<-CIFinalsize(inc , time, start,model)
                p3<-CIturningpoint(inc , time, start, model)
                pp1<-D(expression(alpha*((1+k*exp(-gamma*k*(t-eta)))^(-1/k))),"t")
-               alpha<-coef(Richards.m(inc , time, start[1]))[1]
-               k<-coef(Richards.m(inc , time, start[1]))[2]
-               gamma<-coef(Richards.m(inc , time, start[1]))[3]
-               eta<-coef(Richards.m(inc , time, start[1]))[4]
+               alpha<-coef(Richardsm(inc , time, start[1]))[1]
+               k<-coef(Richardsm(inc , time, start[1]))[2]
+               gamma<-coef(Richardsm(inc , time, start[1]))[3]
+               eta<-coef(Richardsm(inc , time, start[1]))[4]
                t<-c(1:pred)
                p61<-eval(pp1)
                p41<-alpha*((1+k*exp(-gamma*k*(t-eta)))^(-1/k))
                pp2<-D(expression(alpha/(1+exp(-gamma*(t-eta)))),"t")
-               alpha<-coef(logistic3p.m(inc , time, start[2]))[1]
-               gamma<-coef(logistic3p.m(inc , time, start[2]))[2]
-               eta<-coef(logistic3p.m(inc , time, start[2]))[3]
+               alpha<-coef(logistic3pm(inc , time, start[2]))[1]
+               gamma<-coef(logistic3pm(inc , time, start[2]))[2]
+               eta<-coef(logistic3pm(inc , time, start[2]))[3]
                p62<-eval(pp2)
                p42<-alpha/(1+exp(-gamma*(t-eta)))
                pp3<-D(expression(e0 + (t^n)*(alpha-e0)/(t^n + eta^n)),"t")
-               alpha<-coef(SigmEmax.m(inc , time, start[3]))[1]
-               eta<-coef(SigmEmax.m(inc , time, start[3]))[2]
-               e0<-coef(SigmEmax.m(inc , time, start[3]))[3]
-                n<-coef(SigmEmax.m(inc , time, start[3]))[4]
+               alpha<-coef(SigmEmaxm (inc , time, start[3]))[1]
+               eta<-coef(SigmEmaxm (inc , time, start[3]))[2]
+               e0<-coef(SigmEmaxm (inc , time, start[3]))[3]
+                n<-coef(SigmEmaxm (inc , time, start[3]))[4]
                p63<-eval(pp3)
                p43<-e0 + (t^n)*(alpha-e0)/(t^n + eta^n)
                pp4<-D(expression(e0 + (alpha-e0)*exp(-exp(-k*(t-eta)))),"t")
-               alpha<-coef(gompertz.m(inc , time, start[4]))[1]
-               eta<-coef(gompertz.m(inc , time, start[4]))[2]
-               e0<-coef(gompertz.m(inc , time, start[4]))[3]
-               k<-coef(gompertz.m(inc , time, start[4]))[4]
+               alpha<-coef(gompertzm(inc , time, start[4]))[1]
+               eta<-coef(gompertzm(inc , time, start[4]))[2]
+               e0<-coef(gompertzm(inc , time, start[4]))[3]
+               k<-coef(gompertzm(inc , time, start[4]))[4]
                p64<-eval(pp4)
                p44<-e0 + (alpha-e0)*exp(-exp(-k*(t-eta)))
                pp5<-D(expression(e0 + (alpha-e0)*exp(-(t/eta)^-gamma)),"t")
-               alpha<-coef(weibull.m(inc , time, start[5]))[1]
-               eta<-coef(weibull.m(inc , time, start[5]))[2]
-               e0<-coef(weibull.m(inc , time, start[5]))[3]
-               gamma<-coef(weibull.m(inc , time, start[5]))[4]
+               alpha<-coef(weibullm(inc , time, start[5]))[1]
+               eta<-coef(weibullm(inc , time, start[5]))[2]
+               e0<-coef(weibullm(inc , time, start[5]))[3]
+               gamma<-coef(weibullm(inc , time, start[5]))[4]
                p65<-eval(pp5)
                p45<-e0 + (alpha-e0)*exp(-(t/eta)^-gamma)
                pp6<-D(expression(d+ (alpha-d)/(1+(2**(1/g)-1)*(t/eta)**-b)**g),"t")
-               alpha<-coef(logistic5p.m(inc , time, start[6]))[1]
-               d<-coef(logistic5p.m(inc , time, start[6]))[2]
-               g<-coef(logistic5p.m(inc , time, start[6]))[3]
-               eta<-coef(logistic5p.m(inc , time, start[6]))[4]
-               b<-coef(logistic5p.m(inc , time, start[6]))[5]
+               alpha<-coef(logistic5pm (inc , time, start[6]))[1]
+               d<-coef(logistic5pm (inc , time, start[6]))[2]
+               g<-coef(logistic5pm (inc , time, start[6]))[3]
+               eta<-coef(logistic5pm (inc , time, start[6]))[4]
+               b<-coef(logistic5pm (inc , time, start[6]))[5]
                p66<-eval(pp6)
                p46<-d+ (alpha-d)/(1+(2**(1/g)-1)*(t/eta)**-b)**g
                p6<-list(p61,p62,p63,p64,p65,p66)
                p7<-weight(inc , time, start)[1]*p61 + weight(inc , time, start)[2]*p62 + weight(inc , time, start)[3]*p63 +weight(inc , time, start)[4]*p64 +weight(inc , time, start)[5]*p65 + weight(inc , time, start)[6]*p66
                p4<-list(p41,p42,p43,p44,p45,p46)
                p5<-weight(inc , time, start)[1]*p41 + weight(inc , time, start)[2]*p42 + weight(inc , time, start)[3]*p43 +weight(inc , time, start)[4]*p44 +weight(inc , time, start)[5]*p45 + weight(inc , time, start)[6]*p46
-               output = list(Incidence=inc, Time=time,PredTime=t,AIC=p0,Weights=p1,FinalSize=p2,TurningPoint=p3,Predict=p4,PredictMA=p5,PredInc=p6, PredMAinc=p7,function.type="allmodel.predict",model.type="all")
+               output = list(Incidence=inc, Time=time,PredTime=t,AIC=p0,Weights=p1,FinalSize=p2,TurningPoint=p3,Predict=p4,PredictMA=p5,PredInc=p6, PredMAinc=p7,function.type="allmodelpredict",model.type="all")
                class(output) = "dengue"
 		   return(output)},
      {stop("This model name is not correct")})
@@ -818,7 +818,7 @@ changetimeFSTP<-function(inc, time,ini,start=NULL){
            t7<-NULL  
            p<-NULL
            for (i in ini:length(time))
-           {p[[i]]<-allmodel.m(inc[1:i],time[1:i], start=start, model="all")
+           {p[[i]]<-allmodels(inc[1:i],time[1:i], start=start, model="all")
            y1[[i-ini+1]]<-p[[i]]$FinalSize[1,2]
            y2[[i-ini+1]]<-p[[i]]$FinalSize[2,2]
            y3[[i-ini+1]]<-p[[i]]$FinalSize[3,2]

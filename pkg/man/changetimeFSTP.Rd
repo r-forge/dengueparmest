@@ -63,13 +63,15 @@ tii<- c(1:36)
 ti2<- c(1:34)
 
 ## (for Incidence data example 1)
-## Changes over time, since time point 25 to time point 36, of the final size and turning point estimates for each built-in model and model averaged
+## Changes over time, since time point 25 to time point 36, of the final size and turning point 
+## estimates for each built-in model and model averaged
 
 changetimeFSTP(inc1,tii,25)
 
 
 ## (for Incidence data example 2)
-## Changes over time, since time point 19 to time point 34, of the final size and turning point estimates for each built-in model and model averaged
+## Changes over time, since time point 19 to time point 34, of the final size and turning point 
+## estimates for each built-in model and model averaged
 
 changetimeFSTP(inc2,ti2,19)
 }

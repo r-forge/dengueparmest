@@ -1,2 +1,4 @@
-exportPattern("^[[:alpha:]]+")
+export(allmodels,allmodelpredict,changetimeFSTP)
 import(nlme,ggplot2,NRAIA,drc)
+S3method(summary,dengue)
+S3method(plot,dengue)
