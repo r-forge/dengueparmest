@@ -21,10 +21,10 @@ Number of observation in which the incidence and the cumulative number of cases 
 }
 
   \item{start}{
-A list with the starting values of the model to be used for fitting the data. If model="all" the imput must be a list of a list with the starting values of Richards, 3P logistic, Sigmoid Emax, Gompertz, Weibull and 5P logistic model parameters.By default, the initial values are provided by self-starting functions.
+A list with the starting values of the model to be used for fitting the data. If model="all" the imput must be a list of a list with the starting values of Richards, 3P logistic, Sigmoid Emax, Gompertz, Weibull and 5P logistic model parameters. By default, the initial values are provided by self-starting functions (see argument start in \code{allmodels} function).
 }
 \item{model}{
-The nonlinear model to be used for fitting the data. Built-in models are  "Richards"", "Logistic3P", "SigmEmax", "Gompertz", "Weibull" and "Logistic5P". If model="all" the parameter estimate will be done taking into account all built-in models via model averaging.
+The nonlinear model to be used for fitting the data. Built-in models are  "Richards"", "Logistic3P", "SigmEmax", "Gompertz", "Weibull" and "Logistic5P" (see argument model in \code{allmodels} function). If model = "all" the parameter estimate will be done taking into account all built-in models via model averaging.
 }
 }
 
@@ -48,7 +48,7 @@ Generic functions such as plot and summary have methods to show the results of t
 }
 
 \references{
-K. Burnham, D. R. Anderson, Model Selection and Multimodel Inference: A Practical Information-theoretic Approach,
+K. Burnham, D. R. Anderson, Model Selection and Multimodel Inference: A Practical Information - theoretic Approach,
 2nd Edition, Springer-Verlag, New York, 2002.\cr
 G. Claeskens, N. L. Hjort, Model selection and model averaging, Cambridge University Press, 2008.
 
@@ -59,48 +59,41 @@ Carlos Sebrango, Lizet Sanchez, Ziv Shkedy
 }
 
 \examples{
-require(nlme)
-require(NRAIA)
-require(drc)
+## (data example 1)
+data("dengueoutbreak1")
 
-
-#Incidence Data example 1
-inc1 <-c(1, 0, 2, 5, 2, 2, 3, 5, 7, 14, 17, 18, 20, 38, 50, 45,
-57, 44, 12, 11, 10, 2, 3, 0, 3, 2, 2, 0, 2, 0, 0, 0, 1, 2, 2, 1)
-#Incidence Data example 2
-inc2<-c(5, 4, 4, 3, 7, 1, 4, 4, 9, 21,19, 33, 49, 45, 46, 28, 
-25, 10, 5, 6, 2, 1, 4, 5, 0, 3, 2, 2, 1, 0, 3, 0, 2, 2)
-# time vectors
-tii<- c(1:36)
-ti2<- c(1:34)
-
-## Using only the information until time point 20 (data example 1)
-## Prediction of the final size and turning point at the end of epidemic, the incidence and 
-## the cumulative number of cases in the observation number 36 using only the Richards model 
-
-p1<-allmodelpredict(inc1[1:20],tii[1:20],36, model="Richards")
+## Using only the information until time point 20
+## Prediction of the final size and turning point at the end of epidemic,  
+## the incidence and the cumulative number of cases in the observation  
+## number 36 using only the Richards model
+p1<-allmodelpredict(dengueoutbreak1$Incidence[1:20],dengueoutbreak1$Time[1:20],36, 
+model = "Richards")
 summary(p1)
 
 ## Using only the information until time point 22
-## Now using all built-in model, Prediction of the final size and turning point at the end of 
-## epidemic, the incidence and the cumulative number of cases in the observation number 30 
-
-p2<-allmodelpredict(inc1[1:22],tii[1:22],30, model="all")
+## Now using all built-in model, Prediction of the final size and turning point  
+## at the end of epidemic, the incidence and the cumulative number of cases 
+## in the observation number 30 
+p2<-allmodelpredict(dengueoutbreak1$Incidence[1:22],dengueoutbreak1$Time[1:22],30, 
+model = "all")
 summary(p2)
 
 ## (data example 2)
-## Using only the information until time point 18, Prediction of the final size and turning 
-## point at the end of epidemic, the incidence and the cumulative number of cases in the 
-## observation number 31 using only the 3P logistic model
+data("dengueoutbreak2")
+## Using only the information until time point 18, Prediction of the final size and  
+## turning point at the end of epidemic, the incidence and the cumulative number  
+## of cases in the observation number 31 using only the 3P logistic model
 
-p3<-allmodelpredict(inc2[1:18],ti2[1:18],31, model="logistic3P")
+p3<-allmodelpredict(dengueoutbreak2$Incidence[1:18],dengueoutbreak2$Time[1:18],31,
+model = "logistic3P")
 summary(p3)
 
 ## Using only the information until time point 20
-## Now using all built-in model, Prediction of the final size and turning point at the end of 
-## epidemic, the incidence and the cumulative number of cases in the observation number 30 
-
-p4<-allmodelpredict(inc2[1:20],ti2[1:20],34, model="all")
+## Now using all built-in model, Prediction of the final size and turning point 
+## at the end of  epidemic, the incidence and the cumulative number of cases  
+## in the observation number 30
+p4<-allmodelpredict(dengueoutbreak2$Incidence[1:20],dengueoutbreak2$Time[1:20],34, 
+model = "all")
 summary(p4)
 
 }

@@ -1,4 +1,4 @@
 export(allmodels,allmodelpredict,changetimeFSTP)
-import(nlme,ggplot2,NRAIA,drc)
+import(nlme,ggplot2,drc)
 S3method(summary,dengue)
 S3method(plot,dengue)

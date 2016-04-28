@@ -45,34 +45,18 @@ Carlos Sebrango, Lizet Sanchez, Ziv Shkedy
 }
 
 \examples{
-require(nlme)
-require(drc)
-require(NRAIA)
+## (data example 2)
+data("dengueoutbreak2")
 
+##Time point from which is required to see the changes over time 
+##of the final size and turning point estimates:20
+t2<-changetimeFSTP(dengueoutbreak2$Incidence,dengueoutbreak2$Time,20)
 
-##Incidence Data example 1
-inc1 <-c(1, 0, 2, 5, 2, 2, 3, 5, 7, 14, 17, 18, 20, 38, 50, 45,
-57, 44, 12, 11, 10, 2, 3, 0, 3, 2, 2, 0, 2, 0, 0, 0, 1, 2, 2, 1)
+##summary function for changetimeFSTP object
+summary(t2)
 
-##Incidence Data example 2
-inc2<-c(5, 4, 4, 3, 7, 1, 4, 4, 9, 21,19, 33, 49, 45, 46, 28, 
-25, 10, 5, 6, 2, 1, 4, 5, 0, 3, 2, 2, 1, 0, 3, 0, 2, 2)
+## plot function for changetimeFSTP object 
+plot(t2,which=c(5,6))
 
-## time vectors
-tii<- c(1:36)
-ti2<- c(1:34)
-
-## (for Incidence data example 1)
-## Changes over time, since time point 25 to time point 36, of the final size and turning point 
-## estimates for each built-in model and model averaged
-
-changetimeFSTP(inc1,tii,25)
-
-
-## (for Incidence data example 2)
-## Changes over time, since time point 19 to time point 34, of the final size and turning point 
-## estimates for each built-in model and model averaged
-
-changetimeFSTP(inc2,ti2,19)
 }
 
