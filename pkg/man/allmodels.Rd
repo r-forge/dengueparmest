@@ -5,7 +5,7 @@
 Parameter estimate for each built-in model and model averaged estimate for final size and turning point of outbreak.
 }
 \description{
-This function gives the parameter estimate for each built-in model and model averaged estimate for final size and turning point of outbreak. Also this function, when all the built-in models are used,  gives the AIC of each model, the model averaged weights and predicted incidence and cumulative cases.this function is used retrospectively, that is, when the outbreak occurred.
+This function gives the parameter estimate for each built-in model and model averaged estimate for final size and turning point of outbreak. Also this function, when all the built-in models are used,  gives the AIC of each model, the model averaged weights and predicted incidence and cumulative cases. This function is used retrospectively, that is, when all the data are available.
 }
 \usage{
 ## Object of the S3 class dengue

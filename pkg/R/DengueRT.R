@@ -384,9 +384,9 @@ summary.dengue <- function(object,...){
                 print(object$AIC)
                 cat("\nModel weights\n")
                 print(object$Weights)
-                cat("\nModel averaged Final size estimate\n")
+                cat("\nModel specific and model average estimate of the final size \n")
                 print(object$FinalSize)
-                cat("\nModel averaged Turning point estimate\n")
+                cat("\nModel specific and model average estimate of the turning point \n")
                 print(object$TurningPoint)
                 }
           }
@@ -406,9 +406,9 @@ summary.dengue <- function(object,...){
                 {cat("\n5P logistic model\n")}
                 cat("\nAIC")
                 print(object$AIC)
-                cat("\nPrediction of the Final size at the end of epidemic:\n")
+                cat("\nPrediction of the final size at the end of epidemic:\n")
                 print(object$FinalSize)
-                cat("\nPrediction of Turning point at the end of epidemic:\n")
+                cat("\nPrediction of turning point at the end of epidemic:\n")
                 print(object$TurningPoint)
                 cat("\nPrediction of the incidence at the time point ",length(object$PredTime)," \n")
                 print(object$PredInc[[length(object$PredTime)]])
@@ -418,9 +418,9 @@ summary.dengue <- function(object,...){
                 print(object$AIC)
                 cat("\nModel weights\n")
                 print(object$Weights)
-                cat("\nModel averaged prediction of the Final size at the end of epidemic\n")
+                cat("\nModel specific and model average prediction of the final size at the end of epidemic\n")
                 print(object$FinalSize)
-                cat("\nModel averaged prediction of the Turning point at the end of epidemic\n")
+                cat("\nModel specific and model average prediction of the turning point at the end of epidemic\n")
                 print(object$TurningPoint)
                 cat("\nModel averaged prediction of the incidence at the time point ",length(object$PredTime)," \n")
                 print(object$PredMAinc[[length(object$PredTime)]])
@@ -428,9 +428,9 @@ summary.dengue <- function(object,...){
                 print(object$PredictMA[[length(object$PredTime)]])}
           }
        if(object$function.type=="changetimeFSTP"){
-             cat("\nChanges over time of the final size\n")
+             cat("\nChanges over time of the parameter estimates for the final size\n")
               print(object$FSchangetime)
-              cat("\nChanges over time of the turning point\n")
+              cat("\nChanges over time of the parameter estimates for the turning point\n")
               print(object$TPchangetime)
            }
 }

@@ -19,9 +19,9 @@ License: \tab GPL-3\cr
 
 }
 \author{
-Carlos Sebrango, Lizet Sanchez, Ziv Shkedy
+Carlos Sebrango, Lizet Sanchez, Ziv Shkedy, Ewoud De Troyer
 
-Maintainer: Carlos Sebrango <sebrango@uniss.edu.cu>, Ewoud De Troyer <ewoud.detroyer@uhasselt.be>
+Maintainer: Carlos Sebrango <sebrango@uniss.edu.cu>
 }
 \references{
 K. Burnham, D. R. Anderson, Model Selection and Multimodel Inference: A Practical Information-theoretic Approach,

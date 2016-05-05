@@ -4,7 +4,8 @@
 Changes over time of the final size and turning point estimates for each built-in model and model averaged.
 }
 \description{
-This function provides the changes over time of the final size and turning point estimates for each built-in model and model averaged. The output of the function are two tables, one for final size and the other for turning point. In the row appear the different time periods since is required until the end of time point available. In the columns are the built-in model and model averaged.
+This function provides the changes over time of the final size and turning point estimates (for specific models and model average) from the time point
+required until the last time point available. The output of the function are two tables, one for final size and the other for turning point. the rows represent the data used for the estimation of the model parameters.
 }
 \usage{
 ## Object of the S3 class dengue
@@ -23,7 +24,7 @@ A list with the starting values of the model to be used for fitting the data. If
 }
 }
 \value{
- An object with the changes over time of the final size and turning point estimates for each built-in model and model averaged. It is a list:
+ An object with the changes over time of the final size and turning point estimates for specific models and model average. It is a list:
 \item{Incidence }{All the available incidences}
 \item{Time}{All the available time points}
 \item{Period}{Time period required to see the changes over time of the final size and turning point estimates}
