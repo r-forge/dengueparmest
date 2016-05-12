@@ -100,35 +100,34 @@ Carlos Sebrango, Lizet Sanchez, Ziv Shkedy
 \examples{
 ## (data example 1)
 data("dengueoutbreak1")
-
+\dontrun{
 ## Parameter estimate for Richards model (for Incidence data example 1)
-
 allmodels(dengueoutbreak1$Incidence,dengueoutbreak1$Time, 
-start=list(alpha=375,k=2.38,gamma=0.76,eta=16), model="Richards")
-
+start=list(alpha=375,k=2.38,gamma=0.76,eta=16), model="Richards")}
 ## or
-allmodels(dengueoutbreak1$Incidence,dengueoutbreak1$Time, model="Richards")
+p1<-allmodels(dengueoutbreak1$Incidence,dengueoutbreak1$Time, model="Richards")
+## summary function for a allmodels object 
+summary(p1)
+## plot function for a allmodels object
+plot(p1,which=c(1,2))
 
+\dontrun{
 ## Parameter estimate for each built-in model and model averaged 
 ##estimate for final size and turning point of outbreak 
-
 
 allmodels(dengueoutbreak1$Incidence,dengueoutbreak1$Time, 
 start=list(list(alpha=375,k=2.38,gamma=0.76,eta=16), 
 list(alpha=375,gamma=1,eta=16),list(alpha=380,eta=13,beta=7,n=5),
 list(alpha=380,eta=20,beta=0,gamma=1),list(alpha=410,eta=12,beta=11,k=3),
 list(alpha=380,beta=4,g=1,eta=13,k=15)), model="all")
-
 ## or
 allmodels(dengueoutbreak1$Incidence,dengueoutbreak1$Time,model="all")
 
 ## (data example 2)
 data("dengueoutbreak2")
 # Parameter estimate for 3P Logistic model 
-
 allmodels(dengueoutbreak2$Incidence,dengueoutbreak2$Time, 
 start=list(alpha=375,gamma=1,eta=16), model="logistic3P")
-
 ## or
 allmodels(dengueoutbreak2$Incidence,dengueoutbreak2$Time,model="logistic3P")
 
@@ -140,8 +139,6 @@ start=list(list(alpha=355,k=1,gamma=1,eta=14),
 list(alpha=355,gamma=1,eta=14), list(alpha=355,eta=13,beta=10,n=6),
 list(alpha=355,eta=11,beta=20,gamma=1),list(alpha=355,eta=12,beta=22,k=3),
 list(alpha=355,beta=15,g=1,eta=13,k=10)),model="all")
-
 ## or
-allmodels(dengueoutbreak2$Incidence,dengueoutbreak2$Time,model="all")
-
+allmodels(dengueoutbreak2$Incidence,dengueoutbreak2$Time,model="all")}
 }

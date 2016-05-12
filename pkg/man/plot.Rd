@@ -48,6 +48,7 @@ Carlos Sebrango, Lizet Sanchez, Ziv Shkedy
 }
 
 \examples{
+\dontrun{
 ## (data example 1)
 data("dengueoutbreak1")
 
@@ -75,7 +76,7 @@ plot(ee3,which=c(1,2))
 ## observation to predict: 30 
 ee4<-allmodelpredict(dengueoutbreak2$Incidence[1:22],dengueoutbreak2$Time[1:22],30, 
 model="all")
-plot(ee4,which=c(1,2,3,4))
+plot(ee4,which=c(1,2,3,4))}
 
 ##plot function for changetimeFSTP object
 ## See example changetimeFSTP function 

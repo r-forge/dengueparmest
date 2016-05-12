@@ -59,6 +59,7 @@ Carlos Sebrango, Lizet Sanchez, Ziv Shkedy
 }
 
 \examples{
+\dontrun{
 ## (data example 1)
 data("dengueoutbreak1")
 
@@ -66,17 +67,15 @@ data("dengueoutbreak1")
 ## Prediction of the final size and turning point at the end of epidemic,  
 ## the incidence and the cumulative number of cases in the observation  
 ## number 36 using only the Richards model
-p1<-allmodelpredict(dengueoutbreak1$Incidence[1:20],dengueoutbreak1$Time[1:20],36, 
+allmodelpredict(dengueoutbreak1$Incidence[1:20],dengueoutbreak1$Time[1:20],36, 
 model = "Richards")
-summary(p1)
 
 ## Using only the information until time point 22
 ## Now using all built-in model, Prediction of the final size and turning point  
 ## at the end of epidemic, the incidence and the cumulative number of cases 
 ## in the observation number 30 
-p2<-allmodelpredict(dengueoutbreak1$Incidence[1:22],dengueoutbreak1$Time[1:22],30, 
-model = "all")
-summary(p2)
+allmodelpredict(dengueoutbreak1$Incidence[1:22],dengueoutbreak1$Time[1:22],30, 
+model = "all")}
 
 ## (data example 2)
 data("dengueoutbreak2")
@@ -84,16 +83,15 @@ data("dengueoutbreak2")
 ## turning point at the end of epidemic, the incidence and the cumulative number  
 ## of cases in the observation number 31 using only the 3P logistic model
 
-p3<-allmodelpredict(dengueoutbreak2$Incidence[1:18],dengueoutbreak2$Time[1:18],31,
+allmodelpredict(dengueoutbreak2$Incidence[1:18],dengueoutbreak2$Time[1:18],31,
 model = "logistic3P")
-summary(p3)
 
+\dontrun{
 ## Using only the information until time point 20
 ## Now using all built-in model, Prediction of the final size and turning point 
 ## at the end of  epidemic, the incidence and the cumulative number of cases  
 ## in the observation number 30
-p4<-allmodelpredict(dengueoutbreak2$Incidence[1:20],dengueoutbreak2$Time[1:20],34, 
-model = "all")
-summary(p4)
+allmodelpredict(dengueoutbreak2$Incidence[1:20],dengueoutbreak2$Time[1:20],34, 
+model = "all")}
 
 }

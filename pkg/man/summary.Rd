@@ -33,6 +33,7 @@ Carlos Sebrango, Lizet Sanchez, Ziv Shkedy, Ewoud DE Troyer
 }
 
 \examples{
+\dontrun{
 ## (data example 1)
 data("dengueoutbreak1")
 
@@ -60,7 +61,7 @@ summary(ee3)
 ## observation to predict: 30 
 ee4<-allmodelpredict(dengueoutbreak1$Incidence[1:22],dengueoutbreak1$Time[1:22],30, 
 model="all")
-summary(ee4)
+summary(ee4)}
 
 ##summary function for changetimeFSTP object
 ## See example changetimeFSTP function 

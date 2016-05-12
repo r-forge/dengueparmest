@@ -46,11 +46,13 @@ Carlos Sebrango, Lizet Sanchez, Ziv Shkedy
 }
 
 \examples{
+\dontrun{
 ## (data example 2)
 data("dengueoutbreak2")
 
 ##Time point from which is required to see the changes over time 
 ##of the final size and turning point estimates:20
+
 t2<-changetimeFSTP(dengueoutbreak2$Incidence,dengueoutbreak2$Time,20)
 
 ##summary function for changetimeFSTP object
@@ -58,6 +60,6 @@ summary(t2)
 
 ## plot function for changetimeFSTP object 
 plot(t2,which=c(5,6))
-
+}
 }
 
